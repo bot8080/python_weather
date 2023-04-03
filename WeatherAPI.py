@@ -28,20 +28,20 @@ class WeatherAPI:
 
     def get_weather_data(self, lat, lon):
         url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={self.api_key}"
-        # print(url)
+        print(url)
         response = requests.get(url)
         response.raise_for_status()
         json_object = json.loads(response.text) 
         weather, main, wind, clouds, sys = itemgetter("weather", "main","wind", "clouds", "sys")(json_object)
         return weather, main, wind, clouds, sys
     
-    def get_location(self):
+    def get_location_data(self):
         dictionary = self.get_coordinates()
         for key in dictionary.keys():
-            # print(key, val)
-            data = self.get_weather_data(dictionary[key][0], dictionary[key][1])
+            dictionary[key]  = self.get_weather_data(dictionary[key][0], dictionary[key][1])
 
-        for d in data:
-            print(d)
+        # for key, val in dictionary.items():    
+        #     print(key, json.dumps(val))
+        return dictionary
         
 
