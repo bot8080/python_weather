@@ -19,8 +19,8 @@ class WeatherApp:
         self.clock = tk.Label(self.window, font=("Calibri", 40), bg="#DADAA5", fg="white")
         self.clock.place(x=500, y=50, height=50, width=350)
         
-        self.l1_WeatherUp = tk.Label(self.window, font=("Calibri", 40), bg='#DADAA5', fg='white')
-        self.l1_WeatherUp.place(x=520, y=450, height=100, width=540)
+        self.weather_counter = tk.Label(self.window, font=("Calibri", 20), bg='#DADAA5', fg='white')
+        self.weather_counter.place(x=1000, y=50, height=50, width=400)
     
     def layout(self):
         name_label = tk.Label(self.window, text="Check Weather", font=("calibri", 30, "bold"), bg='#DADAA5', fg='white').place(x=100, y=50, height=50, width=350)
@@ -78,14 +78,15 @@ class WeatherApp:
     def fetch_data(self, city_name="Sarnia"):
         try:
             city_name = self.city_entry.get()
-            print(city_name)
+            # print(city_name)
         except Exception as e:
             print("EXCEPTION ",city_name)
             print(e)
         
-        # print(city_name)
+        # print("HERE")
         mgr = WeatherManager(self.api)
         data = mgr.get_weather_at_place(city_name)
+        # print(data)
 
         # Update the labels to display the weather data
         if data is not None:
@@ -109,7 +110,6 @@ class WeatherApp:
             self.sunrise.config(text=f"{sunrise_time}")
             self.sunset.config(text=f"{sunset_time}")
             self.windspeed.config(text=f"{wind} mph")
-            # self.labels[7].config(text=f": {humidity}%")
             self.pressure.config(text=f"{pressure} hPa")
             self.status.config(text=f"{detailed_status}")
             self.update_weather()
@@ -120,14 +120,14 @@ class WeatherApp:
         self.clock.config(text=timeVar)
         self.clock.after(1000,self.get_time)
 
-        
     def update_weather(self):
         self.counter = self.counter -1
         if self.counter<0:
-            self.get_data()
+            self.counter = 10
+            self.fetch_data()
         else :
-            self.l1_WeatherUp.config(text="Updating Weather in : " + str(self.counter))
-            self.l1_WeatherUp.after(1000, self.update_weather)
+            self.weather_counter.config(text="Next Update in : " + str(self.counter))
+            self.weather_counter.after(1000, self.update_weather)
 
     def kelvin_to_celsius(self, kelvin):
         celsius = kelvin - 273.15
