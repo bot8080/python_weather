@@ -9,7 +9,11 @@ class WeatherManager:
         observation = self.mgr.weather_at_place(place)
         weather_dict = observation.weather.to_dict()
         weather_dict["weather_icon_url"] = observation.weather.weather_icon_url
-        return weather_dict
+        return [observation.weather, weather_dict]
+        # print(observation.weather.temperature('fahrenheit'))
+        # print(observation.weather.temperature('celsius'))
+        # print(weather_dict)
+        # return  weather_dict
     
     def print_weather_details(self, weather):
         # print("\nBarometric pressure:", weather.barometric_pressure)
