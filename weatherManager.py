@@ -8,7 +8,7 @@ class WeatherManager:
     def get_weather_at_place(self, place):
         observation = self.mgr.weather_at_place(place)
         weather_dict = observation.weather.to_dict()
-        weather_dict["weather_icon_url"] = observation.weather.weather_icon_url
+        weather_dict["weather_icon_url"] = observation.weather.weather_icon_url()
         return [observation.weather, weather_dict]
         # print(observation.weather.temperature('fahrenheit'))
         # print(observation.weather.temperature('celsius'))
